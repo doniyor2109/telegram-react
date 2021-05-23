@@ -8,6 +8,7 @@
 const {
     override,
     addWebpackModuleRule,
+    disableEsLint
 } = require('customize-cra');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
@@ -23,6 +24,8 @@ function addWebpackBundleAnalyzer(config, options = {}) {
 }
 
 module.exports = override(
+    disableEsLint(),
+
     config => ({
         ...config,
         output: {

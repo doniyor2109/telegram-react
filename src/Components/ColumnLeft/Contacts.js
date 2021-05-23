@@ -22,6 +22,7 @@ import CacheStore from '../../Stores/CacheStore';
 import FileStore from '../../Stores/FileStore';
 import TdLibController from '../../Controllers/TdLibController';
 import './Contacts.css';
+import {Button} from "@material-ui/core";
 
 class UserListItem extends React.Component {
     shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -167,6 +168,13 @@ class Contacts extends React.Component {
         });
     };
 
+    handleAddContact = () => {
+        TdLibController.clientUpdate({
+            '@type': 'clientUpdateNewContact',
+            open: true
+        });
+    }
+
     render() {
         const { popup } = this.props;
         const { items, searchItems } = this.state;
@@ -180,6 +188,11 @@ class Contacts extends React.Component {
                         { popup ? <CloseIcon/> : <ArrowBackIcon /> }
                     </IconButton>
                     <SearchInput inputRef={this.searchInputRef} onChange={this.handleSearch} />
+                </div>
+                <div>
+                    <Button onClick={this.handleAddContact}>
+                        Add contact
+                    </Button>
                 </div>
                 <div className='contacts-content' style={style}>
                     {items && (

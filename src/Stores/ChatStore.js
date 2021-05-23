@@ -416,6 +416,10 @@ class ChatStore extends EventEmitter {
                 this.emitUpdate(update);
                 break;
             }
+            case 'clientUpdateNewContact': {
+                this.emitUpdate(update);
+                break;
+            }
             case 'clientUpdateSettings': {
                 this.emitUpdate(update);
                 break;

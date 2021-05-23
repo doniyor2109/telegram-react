@@ -32,6 +32,7 @@ import FileStore from '../../Stores/FileStore';
 import FilterStore from '../../Stores/FilterStore';
 import TdLibController from '../../Controllers/TdLibController';
 import './Dialogs.css';
+import NewContact from "./NewContact";
 
 const defaultTimeout = {
     enter: duration.enteringScreen,
@@ -60,6 +61,7 @@ class Dialogs extends Component {
             openContacts: false,
             openSettings: false,
             openNewGroup: false,
+            openNewContact: false,
             openNewChannel: false,
 
             searchChatId: 0,
@@ -147,6 +149,7 @@ class Dialogs extends Component {
         ChatStore.on('clientUpdateSettings', this.onClientUpdateSettings);
         ChatStore.on('clientUpdateArchive', this.onClientUpdateArchive);
         ChatStore.on('clientUpdateContacts', this.onClientUpdateContacts);
+        ChatStore.on('clientUpdateNewContact', this.onClientUpdateNewContact);
         ChatStore.on('clientUpdateNewGroup', this.onClientUpdateNewGroup);
         ChatStore.on('clientUpdateNewChannel', this.onClientUpdateNewChannel);
         FilterStore.on('updateChatFilters', this.onUpdateChatFilters);
@@ -162,6 +165,7 @@ class Dialogs extends Component {
         ChatStore.off('clientUpdateSettings', this.onClientUpdateSettings);
         ChatStore.off('clientUpdateArchive', this.onClientUpdateArchive);
         ChatStore.off('clientUpdateContacts', this.onClientUpdateContacts);
+        ChatStore.on('clientUpdateNewContact', this.onClientUpdateNewContact);
         ChatStore.off('clientUpdateNewGroup', this.onClientUpdateNewGroup);
         ChatStore.off('clientUpdateNewChannel', this.onClientUpdateNewChannel);
         FilterStore.off('updateChatFilters', this.onUpdateChatFilters);
@@ -298,6 +302,15 @@ class Dialogs extends Component {
         this.setState({ openNewGroup: open });
     };
 
+    onClientUpdateNewContact = async update => {
+        const { isSmallWidth } = AppStore;
+        if (isSmallWidth) return;
+
+        const { open } = update;
+
+        this.setState({ openNewContact: open, openContacts: !open });
+    };
+
     onClientUpdateNewChannel = async update => {
         const { isSmallWidth } = AppStore;
         if (isSmallWidth) return;
@@ -338,6 +351,7 @@ class Dialogs extends Component {
                 openContacts: false,
                 openSettings: false,
                 openNewGroup: false,
+                openNewContact: false,
                 openNewChannel: false,
             },
             () => {
@@ -412,6 +426,10 @@ class Dialogs extends Component {
         this.setState({ openContacts: false });
     };
 
+    handleCloseNewContact = () => {
+        this.setState({ openNewContact: false });
+    };
+
     handleCloseSettings = () => {
         this.setState({ openSettings: false });
     };
@@ -433,6 +451,7 @@ class Dialogs extends Component {
             meChatId,
             openSettings,
             openContacts,
+            openNewContact,
             openArchive,
             openSearch,
             openNewGroup,
@@ -495,6 +514,10 @@ class Dialogs extends Component {
 
                     <SidebarPage open={openContacts} timeout={timeout} onClose={this.handleCloseContacts}>
                         <Contacts />
+                    </SidebarPage>
+
+                    <SidebarPage open={openNewContact} timeout={timeout} onClose={this.handleCloseNewContact}>
+                        <NewContact />
                     </SidebarPage>
 
                     <SidebarPage open={openSettings} timeout={timeout} onClose={this.handleCloseSettings}>
