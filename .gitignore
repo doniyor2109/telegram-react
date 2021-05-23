@@ -1,5 +1,4 @@
 .env
-.env.local
 .idea
 build
 node_modules
