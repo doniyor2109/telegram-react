@@ -420,6 +420,10 @@ class ChatStore extends EventEmitter {
                 this.emitUpdate(update);
                 break;
             }
+            case 'clientUpdateViewUsernames': {
+                this.emitUpdate(update);
+                break;
+            }
             case 'clientUpdateSettings': {
                 this.emitUpdate(update);
                 break;

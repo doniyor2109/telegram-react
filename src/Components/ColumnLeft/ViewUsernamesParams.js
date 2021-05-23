@@ -14,14 +14,12 @@ import TextField from '@material-ui/core/TextField';
 import ArrowBackIcon from '../../Assets/Icons/Back';
 import './NewContactParams.css';
 
-class NewContactParams extends React.Component {
+class UsernamesParams extends React.Component {
 
     constructor(props) {
         super(props);
 
-        this.phoneRef = React.createRef();
-        this.firstNameRef = React.createRef();
-        this.lastNameRef = React.createRef();
+        this.phonesRef = React.createRef();
 
         this.state = {
             error: null
@@ -48,16 +46,8 @@ class NewContactParams extends React.Component {
         return input;
     }
 
-    getPhone() {
-        return this.getParam(this.phoneRef.current.value, 'phone');
-    }
-
-    getFirstName() {
-        return this.getParam(this.firstNameRef.current.value, 'firstName');
-    }
-
-    getLastName() {
-        return this.getParam(this.lastNameRef.current.value, 'lastName');
+    getPhones() {
+        return this.getParam(this.phonesRef.current.value, 'phones');
     }
 
     handleClose = () => {
@@ -77,38 +67,20 @@ class NewContactParams extends React.Component {
                         <ArrowBackIcon />
                     </IconButton>
                     <div className='header-status grow cursor-pointer'>
-                        <span className='header-status-content'>New Contact</span>
+                        <span className='header-status-content'>Import contacts</span>
                     </div>
                 </div>
                 <div className='sidebar-page-content'>
                     <div className='new-chat-content'>
                         <div className='new-chat-title'>
                             <TextField
-                                inputRef={this.firstNameRef}
-                                error={error === 'firstName'}
-                                className='new-chat-input'
-                                variant='outlined'
-                                fullWidth
-                                label="First name"
-                                defaultValue={''}
-                            />
-
-                            <TextField
-                                inputRef={this.lastNameRef}
-                                className='new-chat-input'
-                                variant='outlined'
-                                fullWidth
-                                label="Last name"
-                                defaultValue={''}
-                            />
-
-                            <TextField
-                                inputRef={this.phoneRef}
+                                multiline={true}
+                                inputRef={this.phonesRef}
                                 error={error === 'phone'}
                                 className='new-chat-input'
                                 variant='outlined'
                                 fullWidth
-                                label="Phone number"
+                                label="Phone numbers"
                                 defaultValue={''}
                             />
                         </div>
@@ -119,7 +91,7 @@ class NewContactParams extends React.Component {
     }
 }
 
-NewContactParams.propTypes = {
+UsernamesParams.propTypes = {
     onClose: PropTypes.func
 };
 
@@ -129,4 +101,4 @@ const enhance = compose(
     withRestoreRef()
 );
 
-export default enhance(NewContactParams);
+export default enhance(UsernamesParams);

@@ -175,6 +175,13 @@ class Contacts extends React.Component {
         });
     }
 
+    handleViewUsernames = () => {
+        TdLibController.clientUpdate({
+            '@type': 'clientUpdateViewUsernames',
+            open: true
+        });
+    }
+
     render() {
         const { popup } = this.props;
         const { items, searchItems } = this.state;
@@ -192,6 +199,11 @@ class Contacts extends React.Component {
                 <div>
                     <Button onClick={this.handleAddContact}>
                         Add contact
+                    </Button>
+                </div>
+                <div>
+                    <Button onClick={this.handleViewUsernames}>
+                        View usernames
                     </Button>
                 </div>
                 <div className='contacts-content' style={style}>

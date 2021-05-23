@@ -33,6 +33,7 @@ import FilterStore from '../../Stores/FilterStore';
 import TdLibController from '../../Controllers/TdLibController';
 import './Dialogs.css';
 import NewContact from "./NewContact";
+import ViewUserNames from "./ViewUsernames";
 
 const defaultTimeout = {
     enter: duration.enteringScreen,
@@ -62,6 +63,7 @@ class Dialogs extends Component {
             openSettings: false,
             openNewGroup: false,
             openNewContact: false,
+            openUsernames: false,
             openNewChannel: false,
 
             searchChatId: 0,
@@ -150,6 +152,7 @@ class Dialogs extends Component {
         ChatStore.on('clientUpdateArchive', this.onClientUpdateArchive);
         ChatStore.on('clientUpdateContacts', this.onClientUpdateContacts);
         ChatStore.on('clientUpdateNewContact', this.onClientUpdateNewContact);
+        ChatStore.on('clientUpdateViewUsernames', this.onClientUpdateViewUsernames);
         ChatStore.on('clientUpdateNewGroup', this.onClientUpdateNewGroup);
         ChatStore.on('clientUpdateNewChannel', this.onClientUpdateNewChannel);
         FilterStore.on('updateChatFilters', this.onUpdateChatFilters);
@@ -165,7 +168,8 @@ class Dialogs extends Component {
         ChatStore.off('clientUpdateSettings', this.onClientUpdateSettings);
         ChatStore.off('clientUpdateArchive', this.onClientUpdateArchive);
         ChatStore.off('clientUpdateContacts', this.onClientUpdateContacts);
-        ChatStore.on('clientUpdateNewContact', this.onClientUpdateNewContact);
+        ChatStore.off('clientUpdateNewContact', this.onClientUpdateNewContact);
+        ChatStore.off('clientUpdateViewUsernames', this.onClientUpdateViewUsernames);
         ChatStore.off('clientUpdateNewGroup', this.onClientUpdateNewGroup);
         ChatStore.off('clientUpdateNewChannel', this.onClientUpdateNewChannel);
         FilterStore.off('updateChatFilters', this.onUpdateChatFilters);
@@ -311,6 +315,15 @@ class Dialogs extends Component {
         this.setState({ openNewContact: open, openContacts: !open });
     };
 
+    onClientUpdateViewUsernames = async update => {
+        const { isSmallWidth } = AppStore;
+        if (isSmallWidth) return;
+
+        const { open } = update;
+
+        this.setState({ openUsernames: open, openContacts: !open });
+    };
+
     onClientUpdateNewChannel = async update => {
         const { isSmallWidth } = AppStore;
         if (isSmallWidth) return;
@@ -352,6 +365,7 @@ class Dialogs extends Component {
                 openSettings: false,
                 openNewGroup: false,
                 openNewContact: false,
+                openUsernames: false,
                 openNewChannel: false,
             },
             () => {
@@ -430,6 +444,10 @@ class Dialogs extends Component {
         this.setState({ openNewContact: false });
     };
 
+    handleCloseUsernames = () => {
+        this.setState({ openUsernames: false });
+    };
+
     handleCloseSettings = () => {
         this.setState({ openSettings: false });
     };
@@ -452,6 +470,7 @@ class Dialogs extends Component {
             openSettings,
             openContacts,
             openNewContact,
+            openUsernames,
             openArchive,
             openSearch,
             openNewGroup,
@@ -518,6 +537,10 @@ class Dialogs extends Component {
 
                     <SidebarPage open={openNewContact} timeout={timeout} onClose={this.handleCloseNewContact}>
                         <NewContact />
+                    </SidebarPage>
+
+                    <SidebarPage open={openUsernames} timeout={timeout} onClose={this.handleCloseUsernames}>
+                        <ViewUserNames />
                     </SidebarPage>
 
                     <SidebarPage open={openSettings} timeout={timeout} onClose={this.handleCloseSettings}>
